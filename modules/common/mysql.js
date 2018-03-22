@@ -1,4 +1,5 @@
 const mysql = require('mysql')
+const Q = require('q')
 
 const pool = mysql.createPool({
 	connectionLimit: 10,
@@ -8,7 +9,18 @@ const pool = mysql.createPool({
 	database: 'chatdb'
 })
 
-exports.runRequests = function() {
+exports.runParallel = (cb, queries) => {
+}
+
+exports.runTransaction = function(cb, queries) {
+	pool.getConnection((err, conn) => {
+		conn.beginTransaction(err => {
+			if(err) cb(err, null, 'Begin transaction failed')
+			let errs = {}
+			let results = {}
+
+		})
+	})
 }
 
 exports.query = function(query, args, fcb, scb) {
